@@ -1,113 +1,87 @@
 //TODO: make a wish button, triggered on click. maybe it falls in a cascading sequence from one side to the other
 
-// player = new Character(30, 30, "red", 0, 110);
-
 var canvas = document.querySelector('canvas')
 var ctx = canvas.getContext('2d')
-var button = document.getElementById('wish')
-// var width = canvas.width
-// var height = canvas.height
-var game
+var wishButton = document.getElementById('wish')
+var drops = [{x:400,y:0}, {x:700,y:0}]
+var stars = [{x:400,y:0}, {x:700,y:0}]
+var player;
+var gameInterval
+var counter = 0
 
-//Player
+window.onload = function(){
+player = new Character(50,50,50,canvas.height-50)
+  startGame()
 
-
-
-var player = {
-  x: 300,
-  moveLeft:  function() { this.x -= 25 },
-  moveRight: function() { this.x += 25 },
-}
-
-document.onkeydown = function(e) {
-  switch (e.keyCode) {
-    case 37: player.moveLeft();  console.log('left',  player); break;
-    case 39: player.moveRight(); console.log('right', player); break;
+  document.onkeydown = function(e) {
+    switch (e.keyCode) {
+      case 37: player.moveLeft();  //console.log('left',  player); 
+      break;
+      case 39: player.moveRight(); //console.log('right', player); 
+      break;
+    }
   }
-  updateCanvas();
 }
 
-//why with underscore?
-function draw(_player) {
-  ctx.fillRect(player.x, 450, 50, 50);
+function startGame(){
+  gameInterval = setInterval(function(){
+    update()
+    drawEverything()
+  }, 1000/60)
 }
 
-draw()
-
-function updateCanvas() {
-  ctx.clearRect(0,0,500,500);
-  ctx.fillText("Player_x: " + player.x, 580,40);
-  ctx.fillText("Player_y: " + player.y, 580,60);
-  draw(player)
+function update() {
+  counter++
+  updateStars(2)
 }
 
-// class Player{
-//   constructor(){
-//     this.ctx = c
+function drawEverything(){
+  ctx.clearRect(0,0,canvas.width,canvas.height)
+  drawStars()
+  player.draw()
+}
 
-//   }
+function createStar() {
+  var randomX = Math.floor(Math.random() * canvas.width);
+  stars.push({ x: randomX, y: -50 });
+}
 
+function drawStars() {
+  ctx.save()
+  ctx.fillStyle = 'red'
+  for (var i = 0; i < stars.length; i++) {
+    ctx.fillRect(stars[i].x,stars[i].y,5,5)
+  }
+  ctx.restore()
+}
 
-// }
+//what is this again lol
+function updateStars(number) {
+  for (var i = 0; i < stars.length; i++) {
+    stars[i].y+=2
+  }
 
+    if (counter  % 180 == 0) {
+      createStar() 
+    }
 
-//I imagine at some point I will need a constructor. Maybe it goes in character.js?
-
-
-//the stars and making a wish. commenting this out to work on the square
-
-// var drops = [{x:400,y:0}, {x:700,y:0}]
-
-// function update() {
-//   for (var i = 0; i < 1; i++) {
-//     drops[i].y+=2
-//   }
-//   var randomX = Math.floor(Math.random()*canvas.width) 
-//   drops.push({x:randomX, y: -50})
-//   drops = drops.filter(function(drop){
-//     return drop.y <= canvas.height
-//   })
-// }
-
-// function drawEverything() {
-//   ctx.clearRect(0,0,canvas.width,canvas.height)
-//   for (var i = 0; i < drops.length; i++) {
-//     ctx.fillRect(drops[i].x,drops[i].y,5,5)
-//     ctx.fillStyle = 'yellow'
-//   }
-// }
-
-// setInterval(function(){
-//   update()
-//   drawEverything()
-// }, 1000/60)
+    stars = stars.filter(function(star){
+      // console.log(stars[i].x)
+      return star.y <= canvas.height
+    })
+    
+}
 
 
-// button.onclick = function(){
-//   console.log("twinkle twinkle");
-//   function update() {
-//     for (var i = 0; i < drops.length; i++) {
-//       drops[i].y+=5
-//     }
-//     var randomX = Math.floor(Math.random()*canvas.width) 
-//     drops.push({x:randomX, y: -50})
-//     drops = drops.filter(function(drop){
-//       return drop.y <= canvas.height
-//     })
-//   }
+wishButton.onclick = function(){
+  console.log("twinkle twinkle");
+  updateStars(200)
   
-//   function drawEverything() {
-//     ctx.clearRect(0,0,canvas.width,canvas.height)
-//     for (var i = 0; i < drops.length; i++) {
-//       ctx.fillRect(drops[i].x,drops[i].y,10,10)
-//       ctx.fillStyle = 'white'
-//     } 
-//   }
+ drawEverything()
   
-//   setInterval(function(){
-//     update()
-//     drawEverything()
-//   }, 1000/60)
-// }
+  setInterval(function(){
+    update()
+    drawEverything()
+  }, 1000/60)
+}
 
-//how to get the first part to stop on click?
