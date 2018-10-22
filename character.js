@@ -1,13 +1,13 @@
 // class Character {
 //     constructor(width, height, color, x, y) {
-//     this.width = width;
-//     this.height = height;
-//     this.x = x;
-//     this.y = y;
-//     this.speedX = 0;
-//     this.speedY = 0;
-//     this.ctx.fillStyle = color;
-//     this.ctx = ctx;
+    // this.width = width;
+    // this.height = height;
+    // this.x = x;
+    // this.y = y;
+    // this.speedX = 0;
+    // this.speedY = 0;
+    // this.ctx.fillStyle = color;
+    // this.ctx = ctx;
 //     }
 //     // this.update = function(){
 //     //     //ctx = myGameArea.context;
