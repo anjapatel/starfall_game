@@ -9,10 +9,11 @@ var points = 0;
 var player;
 var gameInterval;
 var counter = 0;
+var opacity = 1;
 
 window.onload = function() {
   player = new Character(50, 50, 50, canvas.height - 50);
-  stars.push(new Star(250, 0, 5, 5));
+  stars.push(new Star(250, 0, 10, 10));
 
   startGame();
 
@@ -37,12 +38,18 @@ function startGame() {
 
 function update() {
   counter++;
-  stars.forEach(function(star, index) {
+  stars.forEach(function(star) {
     star.update();
     if (!player.checkCollision(star)) {
       star.isCatched = true;
+      playerGrow();
       console.log("it collides");
       points++;
+    }
+    //fade stars here
+    if (star.y > 500) {
+      console.log("oh no");
+      playerFade();
     }
   });
   stars = stars.filter(function(star) {
@@ -52,10 +59,29 @@ function update() {
     return false;
   });
 
-  if (this.counter % 120 == 0) {
+  if (counter % 120 == 0) {
     console.log("star");
     createStar();
   }
+}
+
+function playerFade() {
+  if (player.opacity > -0.2) {
+    player.opacity -= 0.2;
+  } else {
+    player.opacity = -0.2;
+  }
+  console.log("fade");
+  console.log(player.opacity);
+}
+
+function playerGrow() {
+  if (player.opacity < 1) {
+    player.opacity += 0.2;
+  } else {
+    player.opacity = 1;
+  }
+  console.log(player.opacity);
 }
 
 // && (star.checkCollision === true)
@@ -72,10 +98,8 @@ function drawEverything() {
 
 function createStar() {
   var randomX = Math.floor(Math.random() * canvas.width);
-  stars.push(new Star(randomX, 0, 5, 5));
+  stars.push(new Star(randomX, 0, 10, 10));
 }
-
-//why don't more stars fall? why does it just get faster?
 
 wishButton.onclick = function() {
   console.log("twinkle twinkle");

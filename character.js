@@ -8,6 +8,8 @@ class Character {
     this.speedX = 0;
     this.ctx = ctx;
     this.ctx.fillRect(this.x, this.y, this.width, this.height);
+    this.opacity = opacity;
+    //this.ctx.globalAlpha = 1;
   }
 
   moveLeft() {
@@ -28,8 +30,9 @@ class Character {
 
   draw() {
     this.ctx.save();
-    this.ctx.fillStyle = "blue";
+    this.ctx.fillStyle = "rgba(0, 255, 0," + this.opacity + ")";
     this.ctx.fillRect(this.x, this.y, this.width, this.height);
+    //this.ctx.globalAlpha = this.opacity;
     this.ctx.restore();
   }
 
