@@ -1,29 +1,37 @@
 //TODO: make a wish button, triggered on click. maybe it falls in a cascading sequence from one side to the other
 
 var canvas = document.querySelector('canvas')
+
 var ctx = canvas.getContext('2d')
 var wishButton = document.getElementById('wish')
-var drops = [{x:400,y:0}, {x:700,y:0}]
-var stars = [{x:400,y:0}, {x:700,y:0}]
-var player;
+var stars = []
+var points = 0
+var player
 var gameInterval
 var counter = 0
 
+
+
 window.onload = function(){
 player = new Character(50,50,50,canvas.height-50)
+stars.push(new Star(250, 0, 5, 5))
+
+
   startGame()
 
   document.onkeydown = function(e) {
     switch (e.keyCode) {
-      case 37: player.moveLeft();  //console.log('left',  player); 
+      case 37: player.moveLeft();  
       break;
-      case 39: player.moveRight(); //console.log('right', player); 
+      case 39: player.moveRight(); 
       break;
     }
   }
 }
 
+
 function startGame(){
+
   gameInterval = setInterval(function(){
     update()
     drawEverything()
@@ -31,51 +39,47 @@ function startGame(){
 }
 
 function update() {
+
   counter++
-  updateStars(2)
+  stars.forEach(function (star) {
+    star.update()
+    player.checkCollision(star)
+  })
+
+  stars = stars.filter(function (star) {
+    return (star.y <= canvas.height)
+  })
+
+  if (this.counter % 120 == 0) {
+    console.log("star")
+    createStar()
+  }
 }
+
+// && (star.checkCollision === true)
 
 function drawEverything(){
   ctx.clearRect(0,0,canvas.width,canvas.height)
-  drawStars()
   player.draw()
+  stars.forEach(function(star){
+    if (player.checkCollision(star) === true)
+    star.draw()
+  })
+  ctx.font = '12px serif';
+  ctx.fillText("Points: " + player.points, 50, 50);
 }
+
 
 function createStar() {
   var randomX = Math.floor(Math.random() * canvas.width);
-  stars.push({ x: randomX, y: -50 });
+  stars.push(new Star(randomX, 0, 5, 5));
 }
 
-function drawStars() {
-  ctx.save()
-  ctx.fillStyle = 'red'
-  for (var i = 0; i < stars.length; i++) {
-    ctx.fillRect(stars[i].x,stars[i].y,5,5)
-  }
-  ctx.restore()
-}
-
-//what is this again lol
-function updateStars(number) {
-  for (var i = 0; i < stars.length; i++) {
-    stars[i].y+=2
-  }
-
-    if (counter  % 180 == 0) {
-      createStar() 
-    }
-
-    stars = stars.filter(function(star){
-      // console.log(stars[i].x)
-      return star.y <= canvas.height
-    })
-    
-}
-
+//why don't more stars fall? why does it just get faster?
 
 wishButton.onclick = function(){
   console.log("twinkle twinkle");
-  updateStars(200)
+  updateStars(5)
   
  drawEverything()
   
@@ -84,4 +88,6 @@ wishButton.onclick = function(){
     drawEverything()
   }, 1000/60)
 }
+
+
 

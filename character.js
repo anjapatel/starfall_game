@@ -7,6 +7,7 @@ class Character {
         this.speedX = 0;
         this.ctx = ctx;
         this.ctx.fillRect(this.x, this.y, this.width, this.height);
+        this.points = points
     }
 
     moveLeft() { this.x -= 25 }
@@ -15,13 +16,14 @@ class Character {
 
     draw() {
         this.ctx.save()
-  this.ctx.fillStyle = 'blue';
-
+        this.ctx.fillStyle = 'blue';
         this.ctx.fillRect(this.x, this.y, this.width, this.height);
         this.ctx.restore()
     }
 
-    checkCollision(star){
+
+
+    checkCollision(star) {
         var myleft = this.x;
         var myright = this.x + (this.width);
         var mytop = this.y;
@@ -30,14 +32,17 @@ class Character {
         var otherright = star.x + (star.width);
         var othertop = star.y;
         var otherbottom = star.y + (star.height);
-        var tap = true;
         if ((mybottom < othertop) ||
                (mytop > otherbottom) ||
                (myright < otherleft) ||
                (myleft > otherright)) {
-           tap = false;
+                return true
         }
-        return console.log(tap);
+        else {
+            this.points++
+            console.log("contact")
+            return false
+        }
     }
 }
 
