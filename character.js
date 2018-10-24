@@ -1,13 +1,15 @@
 class Character {
-  constructor(width, height, x, y) {
+  constructor(img, width, height, x, y) {
     this.ctx = ctx;
     this.width = width;
     this.height = height;
     this.x = x;
     this.y = y;
     this.speedX = 0;
-    this.ctx = ctx;
-    this.ctx.fillRect(this.x, this.y, this.width, this.height);
+    this.img = img;
+    // this.img = new Image();
+    // this.img.src = "./images/sprite.png";
+    //this.ctx.fillRect(this.x, this.y, this.width, this.height);
     this.opacity = opacity;
     //this.ctx.globalAlpha = 1;
   }
@@ -29,11 +31,8 @@ class Character {
   }
 
   draw() {
-    this.ctx.save();
-    this.ctx.fillStyle = "rgba(0, 255, 0," + this.opacity + ")";
-    this.ctx.fillRect(this.x, this.y, this.width, this.height);
-    //this.ctx.globalAlpha = this.opacity;
-    this.ctx.restore();
+    this.ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
+    //this.ctx.fillStyle = "rgba(0, 255, 0," + this.opacity + ")";
   }
 
   checkCollision(star) {

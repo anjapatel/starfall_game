@@ -10,10 +10,14 @@ var player;
 var gameInterval;
 var counter = 0;
 var opacity = 1;
+var sprite = new Image();
+var starDrop = new Image();
+sprite.src = "./images/sprite.png";
+starDrop.src = "./images/star.png";
 
 window.onload = function() {
-  player = new Character(50, 50, 50, canvas.height - 50);
-  stars.push(new Star(250, 0, 10, 10));
+  player = new Character(sprite, 50, 50, 50, canvas.height - 50);
+  stars.push(new Star(starDrop, 250, 0, 10, 10));
 
   startGame();
 
@@ -52,17 +56,19 @@ function update() {
       playerFade();
     }
   });
+
   stars = stars.filter(function(star) {
     if (star.y <= canvas.height && !star.isCatched) {
       return true;
     }
     return false;
   });
+  callStar(120);
+}
 
-  if (counter % 120 == 0) {
-    console.log("star");
-    createStar();
-  }
+//i pulled this out of the update function to make it easier to adjust the number, can always add it back in. maybe check if default state is true?
+function callStar(number) {
+  if (counter % number == 0) createStar();
 }
 
 function playerFade() {
@@ -84,8 +90,6 @@ function playerGrow() {
   console.log(player.opacity);
 }
 
-// && (star.checkCollision === true)
-
 function drawEverything() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   player.draw();
@@ -93,22 +97,27 @@ function drawEverything() {
     star.draw();
   });
   ctx.font = "12px serif";
+  ctx.fillStyle = "white";
   ctx.fillText("Points: " + points, 50, 50);
 }
 
 function createStar() {
   var randomX = Math.floor(Math.random() * canvas.width);
-  stars.push(new Star(randomX, 0, 10, 10));
+  stars.push(new Star(starDrop, randomX, 0, 10, 10));
 }
+
+//ehhh worry about this tomorrow
 
 wishButton.onclick = function() {
   console.log("twinkle twinkle");
-  updateStars(5);
+  update();
+  callStar(5);
+  // updateStars(5);
 
-  drawEverything();
+  // drawEverything();
 
-  setInterval(function() {
-    update();
-    drawEverything();
-  }, 1000 / 60);
+  // setInterval(function() {
+  //   update();
+  //   drawEverything();
+  // }, 1000 / 60);
 };
