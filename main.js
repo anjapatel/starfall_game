@@ -12,9 +12,10 @@ var x;
 var counter = 0;
 var opacity = 1;
 var wishInterval;
+var spriteInterval;
 var sprite = new Image();
 var starDrop = new Image();
-sprite.src = "./images/sapphire.png";
+sprite.src = "./images/kindling.gif";
 starDrop.src = "./images/star.png";
 //sprite.style.opacity = "0.5";
 
@@ -103,7 +104,7 @@ function drawEverything() {
   });
   ctx.font = "30px Courier New";
   ctx.fillStyle = "white";
-  ctx.fillText("Points: " + points, 600, 50);
+  ctx.fillText("Points: " + points, 575, 50);
 }
 
 function createStar() {
@@ -113,7 +114,10 @@ function createStar() {
 
 function showWishButton() {
   console.log("wish button check");
-  if (points % (3 + Math.floor(Math.random() * 10 + 1)) === 0) {
+  if (
+    points % (3 + Math.floor(Math.random() * 10 + 1)) === 0 &&
+    player.opacity === 1
+  ) {
     wishButton.style.display = "block";
   }
   // } else {
@@ -122,19 +126,28 @@ function showWishButton() {
 }
 
 wishButton.onclick = function wishButton() {
-  console.log("twinkle twinkle");
-
   this.style.display = "none";
+
   wishInterval = setInterval(function() {
-    player.opacity = 1;
     update(1);
     drawEverything();
   }, 1000 / 60);
 
+  spriteInterval = setInterval(function() {
+    player.opacity = 1;
+  }, 1000 / 60);
+
+  //create another setInterval and setTimeout function for player opacity
+
   setTimeout(() => {
     clearInterval(wishInterval);
     console.log("stop wishing");
-  }, 3000);
+  }, 5000);
+
+  setTimeout(() => {
+    clearInterval(spriteInterval);
+    console.log("stop fading");
+  }, 8000);
 };
 
-//get
+//sprite: https://www.deviantart.com/uluri/art/Kindling-Pixel-Run-Sprite-657784375
