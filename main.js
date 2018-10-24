@@ -4,6 +4,9 @@ var canvas = document.querySelector("canvas");
 
 var ctx = canvas.getContext("2d");
 var wishButton = document.getElementById("wish");
+
+let wishActivated = false;
+
 var stars = [];
 var points = 0;
 var player;
@@ -51,15 +54,19 @@ function update(number) {
     star.update();
     if (!player.checkCollision(star)) {
       star.isCatched = true;
-      playerGrow();
       console.log("it collides");
       points++;
       showWishButton();
+      if (!wishActivated) {
+        playerGrow();
+      }
     }
 
     if (star.y > canvas.height) {
       console.log("oh no");
-      playerFade();
+      if (!wishActivated) {
+        playerFade();
+      }
     }
   });
 
@@ -116,17 +123,22 @@ function showWishButton() {
   console.log("wish button check");
   if (
     points % (3 + Math.floor(Math.random() * 10 + 1)) === 0 &&
-    player.opacity === 1
+    player.opacity === 1 &&
+    wishActivated === false
   ) {
     wishButton.style.display = "block";
   }
-  // } else {
-  //   wishButton.style.display = "none";
-  // }
 }
 
 wishButton.onclick = function wishButton() {
+  wishActivated = true;
+  setTimeout(function() {
+    toggleWish();
+  }, 10000);
+
   this.style.display = "none";
+
+  clearInterval(gameInterval);
 
   wishInterval = setInterval(function() {
     update(1);
@@ -142,6 +154,7 @@ wishButton.onclick = function wishButton() {
   setTimeout(() => {
     clearInterval(wishInterval);
     console.log("stop wishing");
+    startGame();
   }, 5000);
 
   setTimeout(() => {
@@ -151,3 +164,11 @@ wishButton.onclick = function wishButton() {
 };
 
 //sprite: https://www.deviantart.com/uluri/art/Kindling-Pixel-Run-Sprite-657784375
+
+function toggleWish() {
+  if (!wishActivated) {
+    wishActivated = true;
+  } else if (wishActivated) {
+    wishActivated = false;
+  }
+}
