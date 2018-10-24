@@ -11,7 +11,7 @@ class Character {
     // this.img.src = "./images/sprite.png";
     //this.ctx.fillRect(this.x, this.y, this.width, this.height);
     this.opacity = opacity;
-    //this.ctx.globalAlpha = 1;
+    this.ctx.globalAlpha = opacity;
   }
 
   moveLeft() {
@@ -23,16 +23,28 @@ class Character {
   }
 
   moveRight() {
-    if (this.x >= 450) {
-      this.x = 450;
+    if (this.x >= 750) {
+      this.x = 750;
     } else {
       this.x += 25;
     }
   }
 
   draw() {
+    this.ctx.save();
+
+    //this works
+
+    // this.ctx.fillStyle = "blue";
+    // this.ctx.fillRect(this.x, this.y, this.width, this.height);
+    // this.ctx.beginPath();
+    // this.ctx.arc(this.x, this.y, 50, 0, 2 * Math.PI);
+    // this.ctx.stroke();
+    // this.ctx.fillStyle = "rgba(230, 230, 250," + this.opacity + ")";
+    this.ctx.globalAlpha = this.opacity;
+
     this.ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
-    //this.ctx.fillStyle = "rgba(0, 255, 0," + this.opacity + ")";
+    this.ctx.restore();
   }
 
   checkCollision(star) {

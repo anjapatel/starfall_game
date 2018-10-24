@@ -8,16 +8,20 @@ var stars = [];
 var points = 0;
 var player;
 var gameInterval;
+var x;
 var counter = 0;
 var opacity = 1;
+var wishInterval;
 var sprite = new Image();
 var starDrop = new Image();
-sprite.src = "./images/sprite.png";
+sprite.src = "./images/sapphire.png";
 starDrop.src = "./images/star.png";
+//sprite.style.opacity = "0.5";
 
 window.onload = function() {
-  player = new Character(sprite, 50, 50, 50, canvas.height - 50);
-  stars.push(new Star(starDrop, 250, 0, 10, 10));
+  wishButton.style.display = "none";
+  player = new Character(sprite, 100, 100, 350, canvas.height - 100);
+  stars.push(new Star(starDrop, 250, 0, 20, 20));
 
   startGame();
 
@@ -35,12 +39,12 @@ window.onload = function() {
 
 function startGame() {
   gameInterval = setInterval(function() {
-    update();
+    update(120);
     drawEverything();
   }, 1000 / 60);
 }
 
-function update() {
+function update(number) {
   counter++;
   stars.forEach(function(star) {
     star.update();
@@ -49,33 +53,34 @@ function update() {
       playerGrow();
       console.log("it collides");
       points++;
+      showWishButton();
     }
-    //fade stars here
-    if (star.y > 500) {
+
+    if (star.y > canvas.height) {
       console.log("oh no");
       playerFade();
     }
   });
 
+  //get rid of stars that leave canvas
   stars = stars.filter(function(star) {
     if (star.y <= canvas.height && !star.isCatched) {
       return true;
     }
     return false;
   });
-  callStar(120);
+  callStar(number);
 }
 
-//i pulled this out of the update function to make it easier to adjust the number, can always add it back in. maybe check if default state is true?
 function callStar(number) {
   if (counter % number == 0) createStar();
 }
 
 function playerFade() {
-  if (player.opacity > -0.2) {
+  if (player.opacity > 0.1) {
     player.opacity -= 0.2;
   } else {
-    player.opacity = -0.2;
+    player.opacity = 0;
   }
   console.log("fade");
   console.log(player.opacity);
@@ -96,28 +101,40 @@ function drawEverything() {
   stars.forEach(function(star) {
     star.draw();
   });
-  ctx.font = "12px serif";
+  ctx.font = "30px Courier New";
   ctx.fillStyle = "white";
-  ctx.fillText("Points: " + points, 50, 50);
+  ctx.fillText("Points: " + points, 600, 50);
 }
 
 function createStar() {
   var randomX = Math.floor(Math.random() * canvas.width);
-  stars.push(new Star(starDrop, randomX, 0, 10, 10));
+  stars.push(new Star(starDrop, randomX, 0, 20, 20));
 }
 
-//ehhh worry about this tomorrow
+function showWishButton() {
+  console.log("wish button check");
+  if (points % (3 + Math.floor(Math.random() * 10 + 1)) === 0) {
+    wishButton.style.display = "block";
+  }
+  // } else {
+  //   wishButton.style.display = "none";
+  // }
+}
 
-wishButton.onclick = function() {
+wishButton.onclick = function wishButton() {
   console.log("twinkle twinkle");
-  update();
-  callStar(5);
-  // updateStars(5);
 
-  // drawEverything();
+  this.style.display = "none";
+  wishInterval = setInterval(function() {
+    player.opacity = 1;
+    update(1);
+    drawEverything();
+  }, 1000 / 60);
 
-  // setInterval(function() {
-  //   update();
-  //   drawEverything();
-  // }, 1000 / 60);
+  setTimeout(() => {
+    clearInterval(wishInterval);
+    console.log("stop wishing");
+  }, 3000);
 };
+
+//get
