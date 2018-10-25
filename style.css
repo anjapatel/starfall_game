@@ -1,5 +1,6 @@
 body {
   background-color: black;
+  font-family: courier, courier new, serif;
 }
 
 .container {
@@ -10,7 +11,12 @@ body {
   width: 800px;
 }
 
+p {
+  font-family: courier, courier new, serif;
+  color: white;
+}
 .wish {
+  visibility: hidden;
   font-family: courier, courier new, serif;
   border: 0.01em solid #ffffff;
   padding: 0.35em 1.2em;

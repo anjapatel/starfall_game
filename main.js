@@ -7,7 +7,7 @@ var wishButton = document.getElementById("wish");
 let wishActivated = false;
 
 var stars = [];
-var points = 0;
+var points = 8;
 var player;
 var gameInterval;
 var x;
@@ -17,25 +17,30 @@ var wishInterval;
 var spriteInterval;
 var sprite = new Image();
 var starDrop = new Image();
+var left = false;
+var right = false;
 sprite.src = "./images/kindling.gif";
 starDrop.src = "./images/star.png";
 var starSound = new Audio("./sounds/bell.m4a");
 var themeSound = new Audio("./sounds/theme.m4a");
 
 window.onload = function() {
-  themeSound.play();
-  wishButton.style.display = "none";
+  /* wishButton.style.display = "none"; */
+  text.style.display = "none";
   player = new Character(sprite, 100, 100, 350, canvas.height - 100);
   stars.push(new Star(starDrop, 250, 0, 20, 20));
+  themeSound.play();
 
   startGame();
 
   document.onkeydown = function(e) {
     switch (e.keyCode) {
       case 37:
+        left = true;
         player.moveLeft();
         break;
       case 39:
+        right = true;
         player.moveRight();
         break;
     }
@@ -122,7 +127,7 @@ function showWishButton() {
     player.opacity === 1 &&
     wishActivated === false
   ) {
-    wishButton.style.display = "block";
+    wishButton.style.visibility = "visible";
   }
 }
 

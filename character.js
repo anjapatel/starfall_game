@@ -12,6 +12,7 @@ class Character {
   }
 
   moveLeft() {
+    event.preventDefault();
     if (this.x <= 0) {
       this.x = 0;
     } else {
@@ -20,6 +21,7 @@ class Character {
   }
 
   moveRight() {
+    event.preventDefault();
     if (this.x >= 700) {
       this.x = 700;
     } else {
