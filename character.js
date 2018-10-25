@@ -7,9 +7,6 @@ class Character {
     this.y = y;
     this.speedX = 0;
     this.img = img;
-    // this.img = new Image();
-    // this.img.src = "./images/sprite.png";
-    //this.ctx.fillRect(this.x, this.y, this.width, this.height);
     this.opacity = opacity;
     this.ctx.globalAlpha = opacity;
   }
@@ -23,8 +20,8 @@ class Character {
   }
 
   moveRight() {
-    if (this.x >= 750) {
-      this.x = 750;
+    if (this.x >= 700) {
+      this.x = 700;
     } else {
       this.x += 25;
     }
@@ -32,15 +29,6 @@ class Character {
 
   draw() {
     this.ctx.save();
-
-    //this works
-
-    // this.ctx.fillStyle = "blue";
-    // this.ctx.fillRect(this.x, this.y, this.width, this.height);
-    // this.ctx.beginPath();
-    // this.ctx.arc(this.x, this.y, 50, 0, 2 * Math.PI);
-    // this.ctx.stroke();
-    // this.ctx.fillStyle = "rgba(230, 230, 250," + this.opacity + ")";
     this.ctx.globalAlpha = this.opacity;
 
     this.ctx.drawImage(this.img, this.x, this.y, this.width, this.height);

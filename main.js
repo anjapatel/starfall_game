@@ -112,7 +112,7 @@ function drawEverything() {
 }
 
 function createStar() {
-  var randomX = Math.floor(Math.random() * canvas.width);
+  var randomX = Math.floor(Math.random() * 775);
   stars.push(new Star(starDrop, randomX, 0, 20, 20));
 }
 
