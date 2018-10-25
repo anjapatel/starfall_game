@@ -4,7 +4,6 @@ var canvas = document.querySelector("canvas");
 
 var ctx = canvas.getContext("2d");
 var wishButton = document.getElementById("wish");
-
 let wishActivated = false;
 
 var stars = [];
@@ -20,9 +19,11 @@ var sprite = new Image();
 var starDrop = new Image();
 sprite.src = "./images/kindling.gif";
 starDrop.src = "./images/star.png";
-//sprite.style.opacity = "0.5";
+var starSound = new Audio("./sounds/bell.m4a");
+var themeSound = new Audio("./sounds/theme.m4a");
 
 window.onload = function() {
+  themeSound.play();
   wishButton.style.display = "none";
   player = new Character(sprite, 100, 100, 350, canvas.height - 100);
   stars.push(new Star(starDrop, 250, 0, 20, 20));
@@ -54,8 +55,8 @@ function update(number) {
     star.update();
     if (!player.checkCollision(star)) {
       star.isCatched = true;
-      console.log("it collides");
       points++;
+      starSound.play();
       showWishButton();
       if (!wishActivated) {
         playerGrow();
@@ -63,7 +64,6 @@ function update(number) {
     }
 
     if (star.y > canvas.height) {
-      console.log("oh no");
       if (!wishActivated) {
         playerFade();
       }
@@ -90,8 +90,6 @@ function playerFade() {
   } else {
     player.opacity = 0;
   }
-  console.log("fade");
-  console.log(player.opacity);
 }
 
 function playerGrow() {
@@ -100,7 +98,6 @@ function playerGrow() {
   } else {
     player.opacity = 1;
   }
-  console.log(player.opacity);
 }
 
 function drawEverything() {
@@ -120,7 +117,6 @@ function createStar() {
 }
 
 function showWishButton() {
-  console.log("wish button check");
   if (
     points % (3 + Math.floor(Math.random() * 10 + 1)) === 0 &&
     player.opacity === 1 &&
@@ -149,17 +145,13 @@ wishButton.onclick = function wishButton() {
     player.opacity = 1;
   }, 1000 / 60);
 
-  //create another setInterval and setTimeout function for player opacity
-
   setTimeout(() => {
     clearInterval(wishInterval);
-    console.log("stop wishing");
     startGame();
   }, 5000);
 
   setTimeout(() => {
     clearInterval(spriteInterval);
-    console.log("stop fading");
   }, 8000);
 };
 
