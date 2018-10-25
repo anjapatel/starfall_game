@@ -11,7 +11,8 @@ body {
   width: 800px;
 }
 
-p {
+.text {
+  visibility: hidden;
   font-family: courier, courier new, serif;
   color: white;
 }

@@ -11,21 +11,11 @@ class Character {
     this.ctx.globalAlpha = opacity;
   }
 
-  moveLeft() {
-    event.preventDefault();
-    if (this.x <= 0) {
-      this.x = 0;
-    } else {
-      this.x -= 25;
-    }
-  }
-
-  moveRight() {
-    event.preventDefault();
-    if (this.x >= 700) {
-      this.x = 700;
-    } else {
-      this.x += 25;
+  movingAround() {
+    if (rightArrowPressed && player.x <= 700) {
+      player.x += 5;
+    } else if (leftArrowPressed && player.x >= 0) {
+      player.x -= 5;
     }
   }
 
