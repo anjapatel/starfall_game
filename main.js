@@ -5,7 +5,7 @@ var wishButton = document.getElementById("wish");
 let wishActivated = false;
 let textReveal = false;
 var stars = [];
-var points = 0;
+var points = 8;
 var player;
 var gameInterval;
 var x;
@@ -38,11 +38,9 @@ window.onload = function() {
   function keyDownHandler(e) {
     event.preventDefault();
     if (e.keyCode === 39) {
-      console.log("Right arrow is being held down");
       rightArrowPressed = true;
       player.img.src = "./images/sprite-right.png";
     } else if (e.keyCode === 37) {
-      console.log("left arrow is being held down");
       leftArrowPressed = true;
       player.img.src = "./images/sprite-left.png";
     }
@@ -50,10 +48,8 @@ window.onload = function() {
 
   function keyUpHandler(e) {
     if (e.keyCode === 39) {
-      console.log("Right arrow is over");
       rightArrowPressed = false;
     } else if (e.keyCode === 37) {
-      console.log("Left arrow is over");
       leftArrowPressed = false;
     }
   }
@@ -75,8 +71,8 @@ window.onload = function() {
       if (!player.checkCollision(star)) {
         star.isCatched = true;
         points++;
-        starSound.play();
         showWishButton();
+        starSound.play();
         if (!wishActivated) {
           playerGrow();
         }
@@ -135,28 +131,30 @@ window.onload = function() {
     var randomX = Math.floor(Math.random() * 775);
     stars.push(new Star(starDrop, randomX, 0, 20, 20));
   }
-
   function showWishButton() {
     if (
       points % (3 + Math.floor(Math.random() * 10 + 1)) === 0 &&
       player.opacity === 1 &&
       wishActivated === false
     ) {
-      wishButton.style.visibility = "visible";
+      wish.style.visibility = "visible";
+      console.log("show button");
     }
   }
 
   wishButton.onclick = function wishButton() {
     wishActivated = true;
-    text.style.visibility = "visible";
-    textCounter++;
-    console.log(text);
+    writeMessage(randomComment[commentCounter]);
+    setTimeout(function() {
+      commentCounter++;
+      message.innerHTML = " ";
+    }, 8000);
 
     setTimeout(function() {
       toggleWish();
     }, 10000);
 
-    this.style.display = "none";
+    this.style.visibility = "hidden";
 
     clearInterval(gameInterval);
 
@@ -168,16 +166,6 @@ window.onload = function() {
     spriteInterval = setInterval(function() {
       player.opacity = 1;
     }, 1000 / 60);
-
-    textInterval = setInterval(function() {
-      text.style.visibility = "visible";
-      text.textContent += "Addingsome text!";
-    }, 1000 / 60);
-
-    setTimeout(() => {
-      clearInterval(textInterval);
-      text.style.visibility = "hidden";
-    }, 10000);
 
     setTimeout(() => {
       clearInterval(wishInterval);
@@ -199,3 +187,25 @@ window.onload = function() {
     }
   }
 };
+
+var message = document.getElementById("writing");
+let commentCounter = 0;
+
+// YOUR TEXTS GOES HERE
+let randomComment = [
+  "Purple is my favorite color.",
+  "My tail is a candle",
+  "Mir, Thor and Maxence",
+  "Noellia",
+  "Mostafa",
+  "Anjali"
+];
+
+function writeMessage(string) {
+  var i = 0,
+    intervalId;
+  intervalId = window.setInterval(function() {
+    message.innerHTML += string.charAt(i++);
+    if (i > string.length) window.clearInterval(intervalId);
+  }, 100);
+}
