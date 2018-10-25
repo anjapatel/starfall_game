@@ -3,12 +3,14 @@ var canvas = document.querySelector("canvas");
 var ctx = canvas.getContext("2d");
 var wishButton = document.getElementById("wish");
 let wishActivated = false;
-
+let textReveal = false;
 var stars = [];
 var points = 0;
 var player;
 var gameInterval;
 var x;
+var text = document.getElementById("text");
+var textCounter = 0;
 var counter = 0;
 var opacity = 1;
 var wishInterval;
@@ -19,8 +21,7 @@ var starDrop = new Image();
 
 let rightArrowPressed = false;
 let leftArrowPressed = false;
-// var left = false;
-// var right = false;
+
 spriteRight.src = "./images/sprite-right.png";
 spriteRight.src = "./images/sprite-left.png";
 starDrop.src = "./images/star.png";
@@ -28,38 +29,11 @@ var starSound = new Audio("./sounds/bell.m4a");
 var themeSound = new Audio("./sounds/theme.m4a");
 
 window.onload = function() {
-  /* wishButton.style.display = "none"; */
   player = new Character(spriteRight, 100, 100, 350, canvas.height - 100);
   stars.push(new Star(starDrop, 250, 0, 20, 20));
   themeSound.play();
 
   startGame();
-  // THIS IS NOT USED ANYMORE
-  /* document.onkeydown = function(e) {
-    switch (e.keyCode) {
-      case 37:
-        left = true;
-        player.moveLeft();
-        break;
-      case 39:
-        right = true;
-        player.moveRight();
-        break;
-    }
-  };
-  document.onkeyup = function(e) {
-    switch (e.keyCode) {
-      case 37:
-        left = false;
-        player.moveLeft();
-        break;
-      case 39:
-        right = false;
-        player.moveRight();
-        break;
-    }
-  };
-}; */
 
   function keyDownHandler(e) {
     event.preventDefault();
@@ -174,6 +148,10 @@ window.onload = function() {
 
   wishButton.onclick = function wishButton() {
     wishActivated = true;
+    text.style.visibility = "visible";
+    textCounter++;
+    console.log(text);
+
     setTimeout(function() {
       toggleWish();
     }, 10000);
@@ -190,6 +168,16 @@ window.onload = function() {
     spriteInterval = setInterval(function() {
       player.opacity = 1;
     }, 1000 / 60);
+
+    textInterval = setInterval(function() {
+      text.style.visibility = "visible";
+      text.textContent += "Addingsome text!";
+    }, 1000 / 60);
+
+    setTimeout(() => {
+      clearInterval(textInterval);
+      text.style.visibility = "hidden";
+    }, 10000);
 
     setTimeout(() => {
       clearInterval(wishInterval);
