@@ -122,9 +122,9 @@ window.onload = function() {
     stars.forEach(function(star) {
       star.draw();
     });
-    ctx.font = "30px Courier New";
+    ctx.font = "20px Courier New";
     ctx.fillStyle = "white";
-    ctx.fillText("Points: " + points, 575, 50);
+    ctx.fillText("stars caught: " + points, 560, 50);
   }
 
   function createStar() {
@@ -133,7 +133,7 @@ window.onload = function() {
   }
   function showWishButton() {
     if (
-      points % (3 + Math.floor(Math.random() * 10 + 1)) === 0 &&
+      points % Math.floor(Math.random() * 10 + 1) === 0 &&
       player.opacity === 1 &&
       wishActivated === false
     ) {
@@ -193,10 +193,12 @@ let commentCounter = 0;
 
 // YOUR TEXTS GOES HERE
 let randomComment = [
-  "Starcat: I'm lost, can you help me find my way?",
-  "Starcat: This looks familiar, but something is wrong.",
-  "Starcat: I think I've been here before.",
-  "Starcat: Once upon a time..."
+  "I'm lost. I wish I could remember who I am.",
+  "This looks familiar, but something is wrong.",
+  "Can you show me how to get home? I wish you could help me.",
+  "Once upon a time, I wasn't a cat at all.",
+  "I have faint memories of...ruin...destruction...",
+  "If I stop wishing, I will disappear."
 ];
 
 function writeMessage(string) {
