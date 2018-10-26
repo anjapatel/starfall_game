@@ -200,11 +200,15 @@ let commentCounter = 0;
 // YOUR TEXTS GOES HERE
 let randomComment = [
   "I'm lost. I wish I could remember who I am.",
-  "This looks familiar, but something is wrong.",
-  "Can you show me how to get home? I wish you could help me.",
-  "Once upon a time, I wasn't a cat at all.",
-  "I have faint memories of...ruin...destruction...",
-  "If I stop wishing, I will disappear."
+  "I'm not a cat. Why do I look like this?",
+  "I wish I could go home...",
+  "Is this all that's left of my planet?",
+  "I wish I could take it all back.",
+  "Not even wishes can absolve me of what I've done.",
+  "Am I doomed to run and make wishes forever?",
+  "But if I stop wishing, I will keep fading...",
+  "Take away these memories of ruin and destruction.",
+  "I'm lost. I wish I could remember who I am."
 ];
 
 function writeMessage(string) {
