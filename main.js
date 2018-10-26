@@ -5,7 +5,7 @@ var wishButton = document.getElementById("wish");
 let wishActivated = false;
 let textReveal = false;
 var stars = [];
-var points = 8;
+var points = 0;
 var player;
 var gameInterval;
 var x;
@@ -124,7 +124,7 @@ window.onload = function() {
     });
     ctx.font = "20px Courier New";
     ctx.fillStyle = "white";
-    ctx.fillText("stars caught: " + points, 560, 50);
+    ctx.fillText("wish points: " + points, 560, 50);
   }
 
   function createStar() {
@@ -141,6 +141,12 @@ window.onload = function() {
       console.log("show button");
     }
   }
+
+  //this is the regular algorithm. setting it aside for the demo
+
+  // points % (3 + Math.floor(Math.random() * 10 + 1)) === 0 &&
+  // player.opacity === 1 &&
+  // wishActivated === false
 
   wishButton.onclick = function wishButton() {
     wishActivated = true;
