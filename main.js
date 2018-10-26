@@ -193,12 +193,10 @@ let commentCounter = 0;
 
 // YOUR TEXTS GOES HERE
 let randomComment = [
-  "Purple is my favorite color.",
-  "My tail is a candle",
-  "Mir, Thor and Maxence",
-  "Noellia",
-  "Mostafa",
-  "Anjali"
+  "Starcat: I'm lost, can you help me find my way?",
+  "Starcat: This looks familiar, but something is wrong.",
+  "Starcat: I think I've been here before.",
+  "Starcat: Once upon a time..."
 ];
 
 function writeMessage(string) {
